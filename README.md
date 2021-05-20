@@ -85,6 +85,12 @@ PUSHINFO | ft=`SCKEY`
 | -------- | ------------------------------------- |
 | PUSHINFO | qywx=`企业ID`,`Secret`,@all,`AgentId` |
 
+## 添加酷推推送
+
+| Name     | Value         |
+| -------- | ------------- |
+| PUSHINFO | coolpush=SKEY |
+
 ## 2021-03-21
 
 - 增加Telegram推送

@@ -344,7 +344,7 @@ public class Run {
             case "coolpush": {
                 try {
                     URIBuilder builder = new URIBuilder("https://push.xuthus.cc/send/" + pushKey);
-                    String content = text + "\n" + desp;
+                    String content = desp;
                     builder.addParameter("c", content);
 
                     HttpResponse response = doGet(httpClient, builder.build());
