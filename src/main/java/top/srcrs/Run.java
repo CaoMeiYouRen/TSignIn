@@ -138,10 +138,11 @@ public class Run {
      */
     public void runSign() {
         // 当执行 5 轮所有贴吧还未签到成功就结束操作
-        Integer flag = 2;
+        final Integer MAX = 2;
+        Integer flag = MAX;
         try {
             while (success.size() < followNum && flag > 0) {
-                LOGGER.info("-----第 {} 轮签到开始-----", 5 - flag + 1);
+                LOGGER.info("-----第 {} 轮签到开始-----", MAX - flag + 1);
                 LOGGER.info("还剩 {} 贴吧需要签到", followNum - success.size());
                 Iterator<String> iterator = follow.iterator();
                 while (iterator.hasNext()) {
@@ -157,7 +158,7 @@ public class Run {
                         LOGGER.warn(rotation + ": " + "签到失败");
                     }
                 }
-                if (success.size() != followNum) {
+                if (success.size() < followNum && flag > 0) {
                     // 为防止短时间内多次请求接口，触发风控，设置每一轮签到完等待 5 分钟
                     Thread.sleep(1000 * 60 * 1);
                     /**
