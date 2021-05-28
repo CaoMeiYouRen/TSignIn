@@ -138,7 +138,7 @@ public class Run {
      */
     public void runSign() {
         // 当执行 5 轮所有贴吧还未签到成功就结束操作
-        final Integer MAX = 2;
+        final Integer MAX = 3;
         Integer flag = MAX;
         try {
             while (success.size() < followNum && flag > 0) {
