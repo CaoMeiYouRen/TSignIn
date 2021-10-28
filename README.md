@@ -91,6 +91,12 @@ PUSHINFO | ft=`SCKEY`
 | -------- | ------------- |
 | PUSHINFO | coolpush=SKEY |
 
+## 添加钉钉推送
+
+| Name     | Value                       |
+| -------- | --------------------------- |
+| PUSHINFO | dingtalk=accessToken,secret |
+
 ## 2021-03-21
 
 - 增加Telegram推送

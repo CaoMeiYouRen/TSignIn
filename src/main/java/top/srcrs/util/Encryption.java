@@ -5,6 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
 
 /**
  * 对字符串进行加密
@@ -12,6 +15,11 @@ import java.security.MessageDigest;
  * @Time 2020-10-31
  */
 public class Encryption {
+	
+	public static void main(String[] args) {
+		System.out.println(Encryption.hmacSha256("123456", "abc"));
+	}
+	
     /** 获取日志记录器对象 */
     private static final Logger LOGGER = LoggerFactory.getLogger(Encryption.class);
 
@@ -38,4 +46,21 @@ public class Encryption {
             return "";
         }
     }
+
+    public static String hmacSha256(String data, String key) {
+        try {
+            Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secret_key = new SecretKeySpec(key.getBytes("UTF-8"), "HmacSHA256");
+            sha256_HMAC.init(secret_key);
+            byte[] array = sha256_HMAC.doFinal(data.getBytes("UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            for (byte item : array) {
+                sb.append(Integer.toHexString((item & 0xFF) | 0x100).substring(1, 3));
+            }
+            return sb.toString().toUpperCase();
+        } catch (Exception e){
+            LOGGER.error("字符串进行HMACSHA256加密错误 -- " + e);
+            return "";
+        }
+   }
 }

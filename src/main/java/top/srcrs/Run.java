@@ -18,6 +18,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import top.srcrs.domain.Cookie;
+import top.srcrs.util.DingtalkHelp;
 import top.srcrs.util.Encryption;
 import top.srcrs.util.Request;
 
@@ -359,6 +360,43 @@ public class Run {
                 } catch (Exception e) {
                     LOGGER.error("酷推推送失败：" + e.toString());
                 }
+                break;
+            }
+            case "dingtalk": {
+                // 钉钉
+                String[] splitResults = pushKey.split(",");
+                String accessToken = splitResults[0];
+                String secret = splitResults[1];
+                // 签名
+                String sign = "";
+                Long timestamp = System.currentTimeMillis();
+                try {
+                	sign = DingtalkHelp.getSign(timestamp, secret);
+                	URIBuilder builder = new URIBuilder("https://oapi.dingtalk.com/robot/send");
+                    builder.addParameter("timestamp", timestamp.toString());
+                    builder.addParameter("sign", sign);
+                    builder.addParameter("access_token", accessToken);
+                	
+                    Map<String, Object> postMap = new HashMap<>();
+                    postMap.put("msgtype", "text");
+                    
+                    Map<String, String> textMap = new HashMap<>();
+                    textMap.put("content", desp);
+                    
+                    postMap.put("text", textMap);
+                    
+                    HttpResponse response = doPost(httpClient, builder.build(), postMap);
+                    String responseJson = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+                    Map<String, String> jsonMap = JSON.parseObject(responseJson, new TypeReference<Map<String, String>>() {
+                    });
+                    if (Integer.parseInt(jsonMap.get("errcode")) != 0) {
+                        throw new HttpException("errcode:" + jsonMap.get("errcode"));
+                    }
+                    LOGGER.info("钉钉推送应用消息正常");
+                	
+				} catch (Exception e) {
+					LOGGER.error("钉钉推送失败：" + e.toString());
+				}
                 break;
             }
             default:
