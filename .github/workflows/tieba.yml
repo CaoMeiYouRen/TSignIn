@@ -1,10 +1,9 @@
-# 每天6:30执行
-
+# 每天00:01执行
 name: TiebaSignIn
 
 on:
   schedule:
-    - cron: "30 22 * * *"
+    - cron: "01 16 * * *"
   watch:
     types: started
   workflow_dispatch:
