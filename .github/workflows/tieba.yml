@@ -3,7 +3,7 @@ name: TiebaSignIn
 
 on:
   schedule:
-    - cron: "01 16 * * *"
+    - cron: "0 16 * * *"
   watch:
     types: started
   workflow_dispatch:
